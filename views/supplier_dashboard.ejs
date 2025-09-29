@@ -1,44 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VitalNest</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
-    <header class = "s_header">
-        <!-- <div> -->
-            <h1>Supplier Dashboard</h1>
-        <!-- </div> -->
-        <!-- <div> -->
-            <input id = "search" placeholder="search supplier"/>
-            <button>add supplier</button>
-        <!-- </div> -->
-    </header>
-
-    <main>
-        <section>
-            <div>total suppliers</div>
-            <div>pending</div>
-            <div>active</div>
-        </section>
-        <br>    
-        <table>
+    <h1>Supplier dashBoard - <%= manager_id %></h1>
+    <h1>Request Data - <%= request_data %></h1>
+    <div>
+        <h2 class="industry_dashboard_sub_heading">Request Data</h2>
+        <table border="1.5" cellpadding="15" cellspacing="0" style="margin: 25px;">
+            <thead>
+                <tr class="industry_dashboard_add_medicine_table">
+                    <th>Supplier ID</th>
+                    <th>Quantity</th>
+                    <th>Hospital ID</th>
+                    <th>Medicine Name</th>
+                    <th>Request Timestamp</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody style="background-color: white;">
+                <% for (record of request_data) { %>
+                <tr>
+                    <td><%= record.supplier_id %></td>
+                    <td><%= record.quantity %></td>
+                    <td><%= record.hsp_id %></td>
+                    <td><%= record.medicine_name %></td>
+                    <td><%= record.timestamp %></td>
+                    <td>
+                        <form action="/sendInventoryToHospital" method="post">
+                            <input type="hidden" name="supplier_id" value="<%- record.supplier_id %>" />
+                            <input type="hidden" name="quantity" value="<%- record.quantity %>" />
+                            <input type="hidden" name="hsp_id" value="<%- record.hsp_id %>" />
+                            <input type="hidden" name="med_name" value="<%- record.medicine_name %>" />
+                            <button type="submit" name="action" value="approve" class="admin_user_approval_card_accept_button_design" style="border-radius: 5px; font-size: 18px; font-weight: 400;">Approve</button>
+                            <button type="submit" name="action" value="reject" class="admin_user_approval_card_reject_button_design" style="border-radius: 5px; font-size: 18px; font-weight: 400;">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h2 style="text-align: center;">Medicinal Data</h2>
+        <table border="1" cellpadding="5" cellspacing="0" style="margin: auto;">
             <thead>
                 <tr>
-                    <b><td>name</td></b>
-                    <b><td>number</td></b>
-                    <b><td>location</td></b>
-                    <b><td>status</td></b>
-                    <b><td>action</td></b>   
+                    <th>Industry ID</th>
+                    <th>Medicine Name</th>
+                    <th>Uses</th>
+                    <th>Side Effects</th>
+                    <th>Quantity</th>
+                    <th>Request Inventory</th>
                 </tr>
             </thead>
             <tbody>
-                <!--rows are injected here-->
+                <% for (record of data) { %>
+                <tr>
+                    <td><%= record.ind_id %></td>
+                    <td><%= record.medicine_name %></td>
+                    <td><%= record.uses %></td>
+                    <td><%= record.side_effects %></td>
+                    <td><%= record.quantity %></td>
+                    <td>
+                        <form action="/requestInventory" method="post">
+                            <input type="hidden" name="supplier_id" value="<%- manager_id %>" />
+                            <input type="hidden" name="ind_id" value="<%- record.ind_id %>" />
+                            <input type="hidden" name="med_name" value="<%- record.medicine_name %>" />
+                            <input type="number" min="100" max="5000" name="quantity" required />
+                            <button type="submit">Request</button>
+                        </form>
+                    </td>
+                </tr>
+                <% } %>
             </tbody>
         </table>
-    </main>
-
+    </div>
+    <div>
+        <h2 style="text-align: center;">Inventory Data</h2>
+        <table border="1" cellpadding="5" cellspacing="0" style="margin: auto;">
+            <thead>
+                <tr>
+                    <th>Industry ID</th>
+                    <th>Quantity</th>
+                    <th>Medicine Name</th>
+                    <th>Supplied Time-Stamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (record of inventory_data) { %>
+                <tr>
+                    <td><%= record.ind_id %></td>
+                    <td><%= record.quantity %></td>
+                    <td><%= record.medicine_name %></td>
+                    <td><%= record.timestamp %></td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VitalNest</title>
-    <!--<link rel = "stylesheet" href = "/static/style.css">-->
+    <link rel="stylesheet" href="/static/style.css" />
 </head>
-<body  style="background-color:rgb(182, 232, 255);">
-    <h1 class="admin_user_approval_card_heading">Vital Nest Admin Dashboard - <%= admin%>></h1>
-    <hr>
+<body style="background-color: rgb(182, 232, 255);">
+    <h1 class="admin_user_approval_card_heading">Vital Nest Admin Dashboard - <%= admin_id %></h1>
+    <hr />
     <div>
         <h2 style="text-align: center;">Users data</h2>
         <table border="1" cellpadding="5" cellspacing="0" style="margin: auto;">
@@ -23,42 +23,63 @@
                 </tr>
             </thead>
             <tbody>
-                {% for record in approval_data %}
+                <% for(record of approval_data) { %>
                 <tr>
-                    <td>{{ record[0] }}</td>
-                    <td>{{ record[1] }}</td>
-                    <td>{{ record[2] }}</td>
-                    <td>{{ record[3] }}</td>
-                    <td>{{ record[4] }}</td>
+                    <td><%- record.name %></td>
+                    <td><%- record.aadhar %></td>
+                    <td><%- record.mobile %></td>
+                    <td><%- record.user_type %></td>
+                    <td><%- record.request_timestamp %></td>
                     <td>
                         <form action="/approveUser" method="post">
-                            <input type="hidden" name="name" value="{{record[0]}}">
-                            <input type="hidden" name="aadhar" value="{{record[1]}}">
-                            <input type="hidden" name="mobile" value="{{record[2]}}">
-                            <input type="hidden" name="type" value="{{record[3]}}">
-                            <input type="hidden" name="passwd" value="{{record[5]}}">
-                            <button class="admin_user_approval_card_accept_button_design" type="submit" name="action" value="approve">Approve</button>
-                            <button class="admin_user_approval_card_reject_button_design" type="submit" name="action" value="reject">Reject</button>
+                            <input type="hidden" name="name" value="<%- record.name %>" />
+                            <input type="hidden" name="aadhar" value="<%- record.aadhar %>" />
+                            <input type="hidden" name="mobile" value="<%- record.mobile %>" />
+                            <input type="hidden" name="type" value="<%- record.user_type %>" />
+                            <input type="hidden" name="passwd" value="<%- record.passwd %>" />
+                            <button
+                                class="admin_user_approval_card_accept_button_design"
+                                type="submit"
+                                name="action"
+                                value="approve"
+                            >
+                                Approve
+                            </button>
+                            <button
+                                class="admin_user_approval_card_reject_button_design"
+                                type="submit"
+                                name="action"
+                                value="reject"
+                            >
+                                Reject
+                            </button>
                         </form>
                     </td>
                 </tr>
-                {% endfor %}
+                <% } %>
             </tbody>
         </table>
     </div>
-    <hr>
-        <div >
+    <hr />
+    <div>
         <h2 style="text-align: center;">Search for Patient Records log Data</h2>
         <div class="admin_patient_record_card_design">
-        <form action="/patientRecordsLogData" method="post">
-            <label for="aadhar">Patient ID (Aadhar):</label><br>
-            <input type="text" id="p_id" name="aadhar" pattern="\d{12}" maxlength="12" minlength="12" required><br><br>
-            
-            <input class="admin_patient_record_button_design" type="submit" value="Submit">
-        </form>
+            <form action="/patientRecordsLogData" method="post">
+                <label for="aadhar">Patient ID (Aadhar):</label><br />
+                <input
+                    type="text"
+                    id="p_id"
+                    name="aadhar"
+                    pattern="\d{12}"
+                    maxlength="12"
+                    minlength="12"
+                    required
+                /><br /><br />
+                <input class="admin_patient_record_button_design" type="submit" value="Submit" />
+            </form>
         </div>
     </div>
-    <hr>
+    <hr />
     <div>
         <h2 style="text-align: center;">Users data</h2>
         <table border="1" cellpadding="5" cellspacing="0" style="margin: auto;">
@@ -71,19 +92,18 @@
                 </tr>
             </thead>
             <tbody>
-                {% for user in users %}
+                <% for(user of users) { %>
                 <tr>
-                    <td>{{ user[0] }}</td>
-                    <td>{{ user[1] }}</td>
-                    <td>{{ user[2] }}</td>
-                    <td>{{ user[3] }}</td>
+                    <td><%= user.name %></td>
+                    <td><%= user.aadhar %></td>
+                    <td><%= user.mobile %></td>
+                    <td><%= user.user_type %></td>
                 </tr>
-                {% endfor %}
+                <% } %>
             </tbody>
         </table>
     </div>
-    <hr>
-    
+    <hr />
     <div>
         <h2 style="text-align: center;">Inventory Data</h2>
         <table border="1" cellpadding="5" cellspacing="0" style="margin: auto;">
@@ -100,22 +120,22 @@
                 </tr>
             </thead>
             <tbody>
-                {% for inventory in supply %}
+                <% supply.forEach(inventory => { %>
                 <tr>
-                    <td>{{ inventory[0] }}</td>
-                    <td>{{ inventory[1] }}</td>
-                    <td>{{ inventory[2] }}</td>
-                    <td>{{ inventory[3] }}</td>
-                    <td>{{ inventory[4] }}</td>
-                    <td>{{ inventory[5] }}</td>
-                    <td>{{ inventory[6] }}</td>
-                    <td>{{ inventory[7] }}</td>
+                    <td><%= inventory[0] %></td>
+                    <td><%= inventory[1] %></td>
+                    <td><%= inventory[2] %></td>
+                    <td><%= inventory[3] %></td>
+                    <td><%= inventory[4] %></td>
+                    <td><%= inventory[5] %></td>
+                    <td><%= inventory[6] %></td>
+                    <td><%= inventory[7] %></td>
                 </tr>
-                {% endfor %}
+                <% }) %>
             </tbody>
         </table>
     </div>
-    <hr>
+    <hr />
     <div>
         <h2 style="text-align: center;">Data Records</h2>
         <table border="1" cellpadding="5" cellspacing="0" style="margin: auto;">
@@ -127,17 +147,17 @@
                 </tr>
             </thead>
             <tbody>
-                {% for record in hsp_data %}
+                <% hsp_data.forEach(record => { %>
                 <tr>
-                    <td>{{ record[0] }}</td>
-                    <td>{{ record[1] }}</td>
-                    <td>{{ record[2] }}</td>
+                    <td><%= record[0] %></td>
+                    <td><%= record[1] %></td>
+                    <td><%= record[2] %></td>
                 </tr>
-                {% endfor %}
+                <% }) %>
             </tbody>
         </table>
     </div>
-    <hr>
+    <hr />
     <div>
         <h2>Log Data</h2>
         <table border="1" cellpadding="5" cellspacing="0" style="margin:center;">
@@ -148,15 +168,14 @@
                 </tr>
             </thead>
             <tbody>
-                {% for log in logs %}
+                <% logs.forEach(log => { %>
                 <tr>
-                    <td>{{ log[0] }}</td>
-                    <td>{{ log[1] }}</td>
+                    <td><%= log.aadhar %></td>
+                    <td><%= log.log_timestamp %></td>
                 </tr>
-                {% endfor %}
+                <% }) %>
             </tbody>
         </table>
     </div>
-
 </body>
 </html>
