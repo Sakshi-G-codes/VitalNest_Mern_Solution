@@ -1,50 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VitalNest</title>
-    <link rel = "stylesheet" href = "/static/style.css">
+    <link rel="stylesheet" href="/static/style.css" />
 </head>
-<body>
-    <h1>Vital Nest pharma Industry Dashboard {{ind_id}}</h1>
-    <hr>
+<body style="background-color:#ebf9fa;">
+    <h1 class="industry_dashboard_main_heading">Vital Nest pharma Industry Dashboard <%= ind_id %></h1>
+    <hr />
     <div>
-        <h2>Medicine data</h2>
-        <table border="1" cellpadding="5" cellspacing="0">
+        <h2 class="industry_dashboard_sub_heading">Medicine data</h2>
+        <table border="1.5" cellpadding="15" cellspacing="0" style="margin: 25px;">
             <thead>
-                <tr>
+                <tr class="industry_dashboard_add_medicine_table">
                     <th>Name</th>
                     <th>Uses</th>
                     <th>Side Effects</th>
+                    <th>Current Quantity</th>
+                    <th>Increment Quantity</th>
+                    <th>Remove Medicine</th>
                 </tr>
             </thead>
-            <tbody>
-                {% for medicine in medicines %}
-                <tr>
-                    <td>{{ medicine[0] }}</td>
-                    <td>{{ medicine[1] }}</td>
-                    <td>{{ medicine[2] }}</td>
+            <tbody style="background-color: white;">
+                <% for(medicine of medicines) { %>
+                <tr style="padding: 10px; text-align: center; font-size: 22px; font-weight: 400;">
+                    <td><%= medicine.medicine_name %></td>
+                    <td><%= medicine.uses %></td>
+                    <td><%= medicine.side_effects %></td>
+                    <td><%= medicine.quantity %></td>
+                    <td>
+                        <form action="/updateMedicineQuantity" method="post">
+                            <input type="hidden" name="name" value="<%- medicine.medicine_name %>" />
+                            <input type="hidden" name="quant" value="<%- medicine.quantity %>" />
+                            <input type="number" min="100" max="5000" name="quant_update" />
+                            <button type="submit" name="action" value="update" class="industry_dashboard_add_medicine_update_button">Update</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/removeMedicine" method="post">
+                            <input type="hidden" name="name" value="<%- medicine.medicine_name %>" />
+                            <button type="submit" class="industry_dashboard_add_medicine_remove_button">Remove</button>
+                        </form>
+                    </td>
                 </tr>
-                {% endfor %}
+                <% } %>
             </tbody>
         </table>
     </div>
-    <hr>
-    <form action="/newMedicine" method="post">
-        
-        <input type="hidden" name="ind_id" value="{{ind_id}}">
-
-        <label>Tablet Name:</label><br>
-        <input type="text" name="med_name" required><br><br>
-        
-        <label>Uses:</label><br>
-        <input type="text" name="uses"><br><br>
-
-        <label>Side Effects:</label><br>
-        <input type="text" name="side_effects"><br><br>
-        
-        <input type="submit" value="Submit">
-    </form>
+    <h2 class="industry_dashboard_sub_heading">Add new Medicines</h2>
+    <div class="industry_dashboard_add_medicine">
+        <form action="/newMedicine" method="post">
+            <input type="hidden" name="ind_id" value="<%= ind_id %>" />
+            <label style="font-size: 20px;">Tablet Name:</label><br />
+            <input type="text" name="med_name" required /><br /><br />
+            <label style="font-size: 20px;">Uses:</label><br />
+            <input type="text" name="uses" /><br /><br />
+            <label style="font-size: 20px;">Side Effects:</label><br />
+            <input type="text" name="side_effects" /><br /><br />
+            <input type="submit" value="Submit" class="industry_dashboard_add_medicine_button" />
+        </form>
+    </div>
+    <div>
+        <h2 class="industry_dashboard_sub_heading">Request Data</h2>
+        <table border="1.5" cellpadding="15" cellspacing="0" style="margin: 25px;">
+            <thead>
+                <tr class="industry_dashboard_add_medicine_table">
+                    <th>Supplier ID</th>
+                    <th>Quantity</th>
+                    <th>Industry ID</th>
+                    <th>Medicine Name</th>
+                    <th>Request Timestamp</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody style="background-color: white;">
+                <% for(record of request_data) { %>
+                <tr>
+                    <td><%= record.supplier_id %></td>
+                    <td><%= record.quantity %></td>
+                    <td><%= record.ind_id %></td>
+                    <td><%= record.med_name %></td>
+                    <td><%= record.requested_timestamp %></td>
+                    <td>
+                        <form action="/sendInventory" method="post">
+                            <input type="hidden" name="supplier_id" value="<%- record.supplier_id %>" />
+                            <input type="hidden" name="quantity" value="<%- record.quantity %>" />
+                            <input type="hidden" name="ind_id" value="<%- record.ind_id %>" />
+                            <input type="hidden" name="med_name" value="<%- record.med_name %>" />
+                            <button type="submit" name="action" value="approve" class="admin_user_approval_card_accept_button_design" style="border-radius: 5px; font-size: 18px; font-weight: 400;">Approve</button>
+                            <button type="submit" name="action" value="reject" class="admin_user_approval_card_reject_button_design" style="border-radius: 5px; font-size: 18px; font-weight: 400;">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

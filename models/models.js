@@ -144,7 +144,7 @@ const treatmentRecordSchema = new Schema({
   collection: 'treatment_record'
 });
 
-const medicineDataSchema = new Schema({
+const medicineDataSchema = new Schema({ 
   ind_id: {
     type: String,
     required: true,
@@ -164,6 +164,11 @@ const medicineDataSchema = new Schema({
     type: String,
     required: true,
     maxlength: 50
+  },
+  quantity: {
+    type: Number,
+    required: true,
+    default:5000,
   }
 }, {
   collection: 'medicine_data'
@@ -311,6 +316,86 @@ const registrationApprovalDataSchema = new Schema({
   collection: 'registration_approval_data'
 });
 
+const medicineDataReplicaSchema = new Schema({
+  ind_id: {
+    type: String,
+    required: true,
+    length: 6 
+  },
+  medicine_name: {
+    type: String,
+    required: true,
+    maxlength: 30
+  },
+  quantity: {
+    type: Number,
+    default: 0
+  },
+  supplier_id: {
+    type: Number, 
+    default: null
+  }
+}, {
+  collection: 'medicine_data_replica_for_hospitals'
+}
+);
+
+const inventoryRequestSchema = new Schema({
+  supplier_id: {
+    type: Number,
+    default: null
+  },
+  quantity: {
+    type: Number,
+    default: null
+  },
+  ind_id: {
+    type: String,
+    length: 6,
+    default: null
+  },
+  med_name: {
+    type: String,
+    maxlength: 20,
+    default: null
+  },
+  requested_timestamp: {
+    type: Date,
+    default: Date.now
+  }
+}
+, {
+  collection: 'inventory_request_to_industry_by_supplier'
+});
+
+const inventoryDataIndustryToSupplierSchema = new Schema({
+  supplier_id: {
+    type: Number,
+    default: null
+  },
+  quantity: {
+    type: Number,
+    default: null
+  },
+  ind_id: {
+    type: String,
+    length: 6,
+    default: null
+  },
+  med_name: {
+    type: String,
+    maxlength: 20,
+    default: null
+  },
+  supplied_timestamp: {
+    type: Date,
+    default: Date.now
+  }
+}, {
+  collection: 'inventory_data_industry_to_supplier'
+})
+
+const inventoryDataIndustryToSupplier = mongoose.model('inventoryDataIndustryToSupplier', inventoryDataIndustryToSupplierSchema);
 const TreatmentRecord = mongoose.model('TreatmentRecord', treatmentRecordSchema);
 const HspIdentity = mongoose.model('HspIdentity', hspIdentitySchema)
 const IndIdentity = mongoose.model('IndIdentity', indIdentitySchema)
@@ -323,6 +408,9 @@ const PatientData = mongoose.model('PatientData', patientDataSchema)
 const PatientRecordsAccessedLogData = mongoose.model('PatientRecordsAccessedLogData', patientRecordsAccessedLogDataSchema)
 const PayersCrowdFundingData = mongoose.model('PayersCrowdFundingData', payersCrowdFundingDataSchema)
 const RegistrationApprovalData = mongoose.model('RegistrationApprovalData', registrationApprovalDataSchema)
+const MedicineDataReplica = mongoose.model('MedicineDataReplicaForHospitals', medicineDataReplicaSchema);
+const InventoryRequestToIndustryBySupplier = mongoose.model('InventoryRequestToIndustryBySupplier', inventoryRequestSchema);
+
 
 export {
   AclList,
@@ -336,5 +424,8 @@ export {
   PatientData,
   PatientRecordsAccessedLogData,
   PayersCrowdFundingData,
-  RegistrationApprovalData
+  RegistrationApprovalData,
+  MedicineDataReplica,
+  InventoryRequestToIndustryBySupplier,
+  inventoryDataIndustryToSupplier
 };
