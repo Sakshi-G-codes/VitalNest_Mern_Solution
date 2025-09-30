@@ -29,19 +29,20 @@ app.set('views', './views');
 mongoose.connect('mongodb://127.0.0.1:27017/vital_nest_mern_solution');
 console.log("Connected to MongoDB successfully");
 
-app.get('/', (req, res) => res.render('index'));
+app.get('/', (req, res) => res.render('index1'));
 
 app.post('/login', async (req, res) => {
-  const { aadhar, passwd } = req.body;
+  let { aadhar, passwd } = req.body;
+  aadhar = Number(aadhar);
   console.log(aadhar);
   console.log(passwd);
   const user = await AclList.findOne({ aadhar });
   console.log(user);
   if (!user) 
-    return res.render('index', { error: "User not Found" });
+    return res.render('index1', { error: "User not Found" });
   if (user.passwd !== passwd) 
-    return res.render('index', { error: "Incorrect Password" });
-  await LogTable.create({ aadhar, logtimestamp: new Date() });
+    return res.render('index1', { error: "Incorrect Password" });
+  await LogTable.create({ aadhar : String(aadhar), log_timestamp: new Date() });
   if (user.user_type === 'Hospital') {
     const hsp = await HspIdentity.findOne({ manager_id: aadhar });
     const hsp_id = hsp ? hsp.hsp_id : '';
@@ -66,7 +67,7 @@ app.post('/login', async (req, res) => {
   } 
   else if (user.user_type === 'admin') {
     const Users_data = await AclList.find({ user_type: { $ne: "admin" } });
-    const Log_data = await LogTable.find().sort({ logtimestamp: -1 });
+    const Log_data = await LogTable.find().sort({ log_timestamp: -1 });
     const supply_data = await InventoryData.find().sort({ hsp_id: 1, supplier_id: 1, supplied_timestamp: -1 });
     const hsp_data = await HspIdentity.aggregate([
       {
@@ -91,7 +92,7 @@ return res.render('admin_dashboard', {
     approval_data
     });
   }
-  return res.render('index', { error: "Password Not Matching try again...." });
+  return res.render('index1', { error: "Password Not Matching try again...." });
 });
 
 app.get('/register', (req, res) => res.render('register'));

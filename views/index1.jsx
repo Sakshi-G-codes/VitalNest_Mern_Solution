@@ -2,12 +2,12 @@
 export default function Login() {
     return(
         <div>
-            <h1 style={{textAlign : "center",color : "white"}}>Welcome to vital Nest</h1>
+            <h1 style={{textAlign : "center",color : "white"}}>Welcome to vitalNest</h1>
             <div className="LoginPage">
                 <form>
                     <div className="LoginLabel">
                         <label>AadharId</label>
-                        <p><input required type = "text" placeholder = "Aadhar Id" name = "AadharId" pattern="\d{12}" maxLength={12} minLength={12} /></p>
+                        <p><input required type = "number" placeholder = "Aadhar Id" name = "AadharId" pattern="\d{12}" maxLength={12} minLength={12} /></p>
                     </div>
                     <div className="LoginLabel">
                         <label>Password</label>
