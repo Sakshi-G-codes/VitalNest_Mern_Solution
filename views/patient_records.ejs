@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalNest</title>
+    <link rel = "stylesheet" href = "/css/style.css">
+</head>
+<body>
+    <h1>Patient Health Records being accessed by <%= hsp_id %></h1>
+    <div>
+        <table border="1" cellpadding="5" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Patient Aadhar ID</th>
+                    <th>Date of Visit</th>
+                    <th>Disease Remark</th>
+                    <th>treatment Remark</th>
+                    <th>Hospital ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% records.forEach(record => { %>
+                <tr>
+                    <td><%= record.p_id %></td>
+                    <td><%= record.date_of_visit %></td>
+                    <td><%= record.disease_remark %></td>
+                    <td><%= record.treatment_remark %></td>
+                    <td><%= record.hsp_id %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
