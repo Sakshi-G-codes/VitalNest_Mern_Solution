@@ -23,13 +23,16 @@ import {
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(express.static("public"));
+
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
 mongoose.connect('mongodb://127.0.0.1:27017/vital_nest_mern_solution');
 console.log("Connected to MongoDB successfully");
 
-app.get('/', (req, res) => res.render('index1'));
+app.get('/', (req, res) => res.render('index'));
 
 app.post('/login', async (req, res) => {
   let { aadhar, passwd } = req.body;
@@ -39,9 +42,9 @@ app.post('/login', async (req, res) => {
   const user = await AclList.findOne({ aadhar });
   console.log(user);
   if (!user) 
-    return res.render('index1', { error: "User not Found" });
+    return res.render('index', { error: "User not Found" });
   if (user.passwd !== passwd) 
-    return res.render('index1', { error: "Incorrect Password" });
+    return res.render('index', { error: "Incorrect Password" });
   await LogTable.create({ aadhar : String(aadhar), log_timestamp: new Date() });
   if (user.user_type === 'Hospital') {
     const hsp = await HspIdentity.findOne({ manager_id: aadhar });
@@ -92,7 +95,7 @@ return res.render('admin_dashboard', {
     approval_data
     });
   }
-  return res.render('index1', { error: "Password Not Matching try again...." });
+  return res.render('index', { error: "Password Not Matching try again...." });
 });
 
 app.get('/register', (req, res) => res.render('register'));
