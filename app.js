@@ -65,7 +65,7 @@ app.post('/login', async (req, res) => {
     const request_data = await mongoose.connection.collection('inventory_request_to_industry_by_supplier').find({ ind_id }).toArray();
     return res.render('industry_dashboard', { ind_id, medicines, request_data });
   } 
-  else if (user.user_type === 'Rep') {
+  else if (user.user_type === 'rep') {
     return res.render("representative_dashboard");
   } 
   else if (user.user_type === 'admin') {
@@ -127,9 +127,11 @@ app.post('/newMedicine', async (req, res) => {
 });
 
 app.post('/billPatient', async (req, res) => {
+  console.log("Entered bill Patient end point");
+  console.log(req.body);
   const { hsp_id, aadhar } = req.body;
-  const items = req.body['item[]'];
-  const quantities = req.body['quantity[]'];
+  const items = req.body.item;
+  const quantities = req.body.quantity;
   if (Array.isArray(items) && Array.isArray(quantities)) {
     for (let i = 0; i < items.length; i++) {
       await PatientData.create({ p_id: aadhar, item: items[i], quantity: parseInt(quantities[i]), hsp_id });
