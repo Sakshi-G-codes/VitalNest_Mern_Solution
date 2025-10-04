@@ -4,11 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VitalNest</title>
-    <link rel="stylesheet" href="/static/style.css" />
+     <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
-    <h1>Supplier dashBoard - <%= manager_id %></h1>
-    <h1>Request Data - <%= request_data %></h1>
+    <h1>Supplier DashBoard - <%= manager_id %></h1>
+   <!-- <h1>Request Data - <%= request_data %></h1> -->
     <div>
         <h2 class="industry_dashboard_sub_heading">Request Data</h2>
         <table border="1.5" cellpadding="15" cellspacing="0" style="margin: 25px;">
@@ -46,10 +46,10 @@
         </table>
     </div>
     <div>
-        <h2 style="text-align: center;">Medicinal Data</h2>
-        <table border="1" cellpadding="5" cellspacing="0" style="margin: auto;">
+        <h2  class="industry_dashboard_sub_heading">Medicinal Data</h2>
+        <table border="1.5" cellpadding="15" cellspacing="0" style="margin: 25px;">
             <thead>
-                <tr>
+                <tr  class="industry_dashboard_add_medicine_table">
                     <th>Industry ID</th>
                     <th>Medicine Name</th>
                     <th>Uses</th>
@@ -72,7 +72,7 @@
                             <input type="hidden" name="ind_id" value="<%- record.ind_id %>" />
                             <input type="hidden" name="med_name" value="<%- record.medicine_name %>" />
                             <input type="number" min="100" max="5000" name="quantity" required />
-                            <button type="submit">Request</button>
+                            <button class="supplier_dashboard_request_button" type="submit">Request</button>
                         </form>
                     </td>
                 </tr>
@@ -81,10 +81,10 @@
         </table>
     </div>
     <div>
-        <h2 style="text-align: center;">Inventory Data</h2>
-        <table border="1" cellpadding="5" cellspacing="0" style="margin: auto;">
+        <h2  class="industry_dashboard_sub_heading">Inventory Data</h2>
+        <table border="1.5" cellpadding="15" cellspacing="0" style="margin: 25px;" >
             <thead>
-                <tr>
+                <tr  class="industry_dashboard_add_medicine_table">
                     <th>Industry ID</th>
                     <th>Quantity</th>
                     <th>Medicine Name</th>
