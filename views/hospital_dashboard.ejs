@@ -94,6 +94,36 @@
             <input type="submit" value="Submit" />
         </form>
     </div>
+    <hr/>
+    <div>
+        <h2>View Patient Bills</h2>
+        <form action="/viewPatientBills" method="post">
+            <input type="hidden" name="hsp_id" value="<%= hsp_id %>">
+            <label for="p_id">Patient ID (Aadhar):</label><br>
+            <input type="text" id="p_id" name="aadhar" pattern="\d{12}" maxlength="12" minlength="12" required><br><br>
+            <input type="submit" value="View Bills">
+        </form>
+    </div>
+    <hr>
+    <div>
+        <h2>Create Crowdfunding Demand</h2>
+        <form action="/createCrowdfundingDemand" method="post">
+            <label for="p_id">Patient ID (Aadhar):</label><br>
+            <input type="text" id="p_id" name="aadhar" pattern="\d{12}" maxlength="12" minlength="12" required><br><br>
+            <label for="total_demand">Total Demand:</label><br>
+            <input type="number" id="total_demand" name="total_demand" min="1" required><br><br>
+            <label for="required_donation">Required Donation:</label><br>
+            <input type="number" id="required_donation" name="required_donation" min="1" required><br><br>
+            <input type="submit" value="Create Demand">
+        </form>
+    </div>
+    <hr>
+    <div>
+        <h2>View Crowdfunding Demands</h2>
+        <form action="/viewCrowdfundingDemands" method="get">
+            <input type="submit" value="View Demands">
+        </form>
+    </div>
     <script>
         function addItem() {
             var container = document.getElementById("items-container");

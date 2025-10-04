@@ -67,6 +67,8 @@ app.post('/login', async (req, res) => {
   } 
   else if (user.user_type === 'rep') {
     return res.render("representative_dashboard");
+  }else if(user.user_type === 'payer'){
+    return res.render("payer_dashboard");
   } 
   else if (user.user_type === 'admin') {
     const Users_data = await AclList.find({ user_type: { $ne: "admin" } });
@@ -159,6 +161,31 @@ app.post('/patientRecordsLogData', async (req, res) => {
   const { aadhar } = req.body;
   const records = await PatientRecordsAccessedLogData.find({ p_id: aadhar });
   return res.render('patient_records_logs', { records });
+});
+
+app.post('/viewPatientBills',async (req,res) => {
+  const { aadhar,hsp_id } = req.body;
+  const records = await PatientData.find({p_id : aadhar});
+  return res.render('patient_bills',{ records,hsp_id });
+});
+
+app.post('/createCrowdfundingDemand', async(req,res) => {
+  const { aadhar,total_demand,required_donation } = req.body;
+  await PatientCrowdFundingDemand.create({p_id : aadhar , total_demand : total_demand , required_donation : required_donation });
+  const demands = await PatientCrowdFundingDemand.find();
+  return res.render('crowdfunding_demands',{demands}); 
+});
+
+app.get('/viewCrowdfundingDemands' , async(req,res) => {
+  const demands = await PatientCrowdFundingDemand.find();
+  return res.render('crowdfunding_demands',{demands});
+});
+
+app.post('/payCrowdfunding',async(req,res) => {
+  const {aadhar,payer_id ,amount,gateway} = req.body;
+  console.log(req.body);
+  await PayersCrowdFundingData.create({p_id : aadhar ,payer_id : payer_id ,paid_timestamp : new Date(),amount : amount,gateway :gateway});
+  return res.render('payer_dashboard');
 });
 
 app.post('/approveUser', async (req, res) => {
