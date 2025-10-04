@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crowdfunding Demands</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h2>Crowdfunding Demands</h2>
+    <table border="1" cellpadding="5" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Patient ID</th>
+                <th>Total Demand</th>
+                <th>Required Donation</th>
+                <!-- <th>Amount Received</th> -->
+                <th>Date of Register</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% demands.forEach(demand => { %>
+            <tr>
+                <td><%= demand.p_id %></td>
+                <td><%= demand.total_demand %></td>
+                <td><%= demand.required_donation %></td>
+                <td><%= demand.date_of_register %></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <br>
+</body>
+</html>
