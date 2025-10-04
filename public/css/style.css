@@ -170,3 +170,85 @@
     height: 36px;
 
 }
+
+
+.industry_dashboard_main_heading{
+    font-family: 'Times New Roman', Times, serif; 
+    color: rgb(61, 1, 55); 
+    font-size: 48px; 
+    text-align: center;
+}
+.industry_dashboard_sub_heading{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: rgb(93, 18, 163);
+    font: size 30px; 
+    margin: 20px;
+}
+.industry_dashboard_add_medicine_table{
+    margin: 25px;
+    background-color: rgb(217, 215, 255); 
+    padding: 10px; 
+    text-align: center; 
+    font-size: 22px; 
+    font-weight: 600;
+}
+.industry_dashboard_add_medicine{
+    background-color: rgb(249, 255, 255);
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 500;
+    color: black;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 15px;
+    width: 400px;
+    border-color: rgb(27, 27, 27);
+    
+}
+
+.industry_dashboard_add_medicine_button{
+    background-color: rgb(57, 55, 179);
+    border-radius: 20px;
+    text-align: center;
+    color:white;
+    border-width: 0px;
+    width: 12vw;
+    height: 36px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.industry_dashboard_add_medicine_update_button{
+    background-color: rgb(137, 255, 163);
+    border-radius: 5px;
+    text-align: center;
+    color:black;
+    width: 8vw;
+    height: 36px;
+    font-size: 18px;
+    font-weight: 400;
+    border-width: 0px;
+}
+
+.industry_dashboard_add_medicine_remove_button{
+    background-color: rgb(255, 137, 137);
+    border-radius: 5px;
+    text-align: center;
+    color:black;
+    width: 8vw;
+    height: 36px;
+    font-size: 18px;
+    font-weight: 400;
+    border-width: 0px;
+}
+
+.supplier_dashboard_request_button{
+    background-color: rgb(86, 24, 141);
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+    width: 10vw;
+    height: 36px;
+    font-size: 20px;
+    font-weight: 500;
+}
