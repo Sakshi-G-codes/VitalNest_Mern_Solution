@@ -128,8 +128,8 @@ app.post('/newMedicine', async (req, res) => {
 
 app.post('/billPatient', async (req, res) => {
   const { hsp_id, aadhar } = req.body;
-  const items = req.body['item[]'];
-  const quantities = req.body['quantity[]'];
+  const items = req.body.item;
+  const quantities = req.body.quantity;
   if (Array.isArray(items) && Array.isArray(quantities)) {
     for (let i = 0; i < items.length; i++) {
       await PatientData.create({ p_id: aadhar, item: items[i], quantity: parseInt(quantities[i]), hsp_id });
