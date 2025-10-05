@@ -17,7 +17,10 @@ import {
   PayersCrowdFundingData,
   RegistrationApprovalData,
   MedicineDataReplica,
-  inventoryDataIndustryToSupplier
+  InventoryRequestToIndustryBySupplier,
+  InventoryRequestToSupplierByHospital,
+  InventoryDataSupplierToHospital,
+  InventoryDataIndustryToSupplier
 } from "./models/models.js";
 
 const app = express();
@@ -85,8 +88,8 @@ app.post('/login', async (req, res) => {
       }
     ]);
 const approval_data = await RegistrationApprovalData.find(
-  { approval_status: 'not approved' },
-  'name aadhar mobile user_type request_timestamp passwd'
+  {},
+  'name aadhar mobile user_type request_timestamp passwd '
 );
 return res.render('admin_dashboard', {
     admin_id: aadhar,
@@ -104,15 +107,23 @@ app.get('/register', (req, res) => res.render('register'));
 
 app.post('/registerToDB', async (req, res) => {
   const { uname, aadhar, mobile, passwd, utype } = req.body;
+  if(utype === 'payer'){
+    await AclList.create({
+    name: uname,
+    aadhar,
+    mobile,
+    passwd,
+    user_type: utype
+    });
+  }
+  else{
   await RegistrationApprovalData.create({
     name: uname,
     aadhar,
     mobile,
     passwd,
-    user_type: utype,
-    approval_status: "not approved",
-    request_timestamp: new Date()
-  });
+    user_type: utype
+  });}
   return res.redirect('/');
 });
 
