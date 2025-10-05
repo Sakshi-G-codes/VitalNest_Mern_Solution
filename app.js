@@ -88,6 +88,7 @@ app.post('/login', async (req, res) => {
       }
     ]);
 const approval_data = await RegistrationApprovalData.find(
+  {},
   'name aadhar mobile user_type request_timestamp passwd '
 );
 return res.render('admin_dashboard', {
