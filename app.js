@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 
 app.use(express.static("public"));
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs');  
 app.set('views', './views');
 
 mongoose.connect('mongodb://127.0.0.1:27017/vital_nest_mern_solution');
