@@ -9,7 +9,7 @@
     background-size: cover;
     display: flex;
     justify-content: center;
-    text-items: center;
+    align-items: center;
 }
 
 #register_btn{
