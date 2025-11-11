@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VitalNest</title>
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel = "stylesheet" href = "/static/style.css">
 </head>
-<body style="background-color:#ebf9fa;" class = "industry_background_image">
-    <h1 class="industry_dashboard_main_heading">Vital Nest pharma Industry Dashboard <%= ind_id %></h1>
-    <hr />
+<body style="background-color:#ebf9fa;">
+    <h1 class="industry_doashboard_main_heading">Vital Nest pharma Industry Dashboard <%= ind_id %></h1>
+    <hr>
     <div>
         <h2 class="industry_dashboard_sub_heading">Medicine data</h2>
         <table border="1.5" cellpadding="15" cellspacing="0" style="margin: 25px;">
@@ -20,6 +20,7 @@
                     <th>Current Quantity</th>
                     <th>Increment Quantity</th>
                     <th>Remove Medicine</th>
+                    <th>Manage Representatives</th>
                 </tr>
             </thead>
             <tbody style="background-color: white;">
@@ -31,17 +32,20 @@
                     <td><%= medicine.quantity %></td>
                     <td>
                         <form action="/updateMedicineQuantity" method="post">
-                            <input type="hidden" name="name" value="<%- medicine.medicine_name %>" />
-                            <input type="hidden" name="quant" value="<%- medicine.quantity %>" />
-                            <input type="number" min="100" max="5000" name="quant_update" />
-                            <button type="submit" name="action" value="update" class="industry_dashboard_add_medicine_update_button">Update</button>
+                            <input type="hidden" name="name" value="<%= medicine.medicine_name %>">
+                            <input type="hidden" name="quant" value="<%= medicine.quantity %>">
+                            <input type="number" min="100" max="5000" name="quant_update">
+                            <button type="submit" name="action" value="update" class="industry_dashboard_add_medicine_update_button ">Update</button>
                         </form>
                     </td>
                     <td>
                         <form action="/removeMedicine" method="post">
-                            <input type="hidden" name="name" value="<%- medicine.medicine_name %>" />
+                            <input type="hidden" name="name" value="<%= medicine.medicine_name %>">
                             <button type="submit" class="industry_dashboard_add_medicine_remove_button">Remove</button>
                         </form>
+                    </td>
+                    <td>
+                        <a href="/manageReps?ind_id=<%= ind_id %>&medicine_name=<%= medicine.medicine_name %>">Manage</a>
                     </td>
                 </tr>
                 <% } %>
@@ -50,19 +54,24 @@
     </div>
     <h2 class="industry_dashboard_sub_heading">Add new Medicines</h2>
     <div class="industry_dashboard_add_medicine">
-        <form action="/newMedicine" method="post">
-            <input type="hidden" name="ind_id" value="<%= ind_id %>" />
-            <label style="font-size: 20px;">Tablet Name:</label><br />
-            <input type="text" name="med_name" required /><br /><br />
-            <label style="font-size: 20px;">Uses:</label><br />
-            <input type="text" name="uses" /><br /><br />
-            <label style="font-size: 20px;">Side Effects:</label><br />
-            <input type="text" name="side_effects" /><br /><br />
-            <input type="submit" value="Submit" class="industry_dashboard_add_medicine_button" />
-        </form>
+    <form action="/newMedicine" method="post" >
+        
+        <input type="hidden" name="ind_id" value="<%= ind_id %>">
+
+        <label style="font-size: 20px;">Tablet Name:</label><br>
+        <input type="text" name="med_name" required><br><br>
+        
+        <label style="font-size: 20px;">Uses:</label><br>
+        <input type="text" name="uses"><br><br>
+
+        <label style="font-size: 20px;">Side Effects:</label><br>
+        <input type="text" name="side_effects"><br><br>
+        
+        <input type="submit" value="Submit" class="industry_dashboard_add_medicine_button">
+    </form>
     </div>
     <div>
-        <h2 class="industry_dashboard_sub_heading">Request Data</h2>
+        <h2 class="industry_dashboard_sub_heading" >Request Data</h2>
         <table border="1.5" cellpadding="15" cellspacing="0" style="margin: 25px;">
             <thead>
                 <tr class="industry_dashboard_add_medicine_table">
@@ -76,7 +85,7 @@
             </thead>
             <tbody style="background-color: white;">
                 <% for(record of request_data) { %>
-                <tr>
+                <tr>    
                     <td><%= record.supplier_id %></td>
                     <td><%= record.quantity %></td>
                     <td><%= record.ind_id %></td>
@@ -84,12 +93,14 @@
                     <td><%= record.requested_timestamp %></td>
                     <td>
                         <form action="/sendInventory" method="post">
-                            <input type="hidden" name="supplier_id" value="<%- record.supplier_id %>" />
-                            <input type="hidden" name="quantity" value="<%- record.quantity %>" />
-                            <input type="hidden" name="ind_id" value="<%- record.ind_id %>" />
-                            <input type="hidden" name="med_name" value="<%- record.med_name %>" />
-                            <button type="submit" name="action" value="approve" class="admin_user_approval_card_accept_button_design" style="border-radius: 5px; font-size: 18px; font-weight: 400;">Approve</button>
-                            <button type="submit" name="action" value="reject" class="admin_user_approval_card_reject_button_design" style="border-radius: 5px; font-size: 18px; font-weight: 400;">Reject</button>
+                            <input type="hidden" name="supplier_id" value="<%= record.supplier_id %>">
+                            <input type="hidden" name="quantity" value="<%= record.quantity %>">
+                            <input type="hidden" name="ind_id" value="<%= record.ind_id %>">
+                            <input type="hidden" name="med_name" value="<%= record.med_name %>">
+                            <button type="submit" name="action" value="approve" class="admin_user_approval_card_accept_button_design" style="border-radius: 5px;  font-size: 18px; 
+    font-weight: 400;">Approve</button>
+                            <button type="submit" name="action" value="reject" class="admin_user_approval_card_reject_button_design" style="border-radius: 5px;  font-size: 18px; 
+    font-weight: 400;">Reject</button>
                         </form>
                     </td>
                 </tr>
@@ -97,5 +108,8 @@
             </tbody>
         </table>
     </div>
+
+
+
 </body>
 </html>

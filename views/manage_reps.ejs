@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Representatives</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body style="background-color:#ebf9fa;">
+    <h1>Manage Representatives for <%= medicine_name %></h1>
+    <h3>Industry ID: <%= ind_id %></h3>
+    <form method="post">
+        <label for="offer_amount">Offer Amount:</label><br>
+        <input type="number" name="offer_amount" id="offer_amount" required min="0" step="0.01"><br><br>
+        <label for="rep_aadhar">Select Representatives:</label><br>
+        <% reps.forEach(rep => { %>
+        <input type="checkbox" name="rep_aadhar" value="<%= rep.rep_id %>" <% if (assigned_reps && assigned_reps.includes(rep.rep_id)) { %>checked<% } %> <% if (pending_offers && pending_offers[rep.rep_id]) { %>disabled<% } %>>
+        <%= rep.rep_name %> (<%= rep.rep_id %>)
+        <% if (pending_offers && pending_offers[rep.rep_id]) { %>
+            - Offer Pending: <%= pending_offers[rep.rep_id] %>
+        <% } %>
+        <br>
+        <% }) %>
+        <br>
+        <button type="submit">Send Offers</button>
+    </form>
+    <br>
+    <% if (confirmed_visits && confirmed_visits.length > 0) { %>
+    <h2>Confirmed Visit Confirmations</h2>
+    <table border="1.5" cellpadding="15" cellspacing="0" style="margin: 25px;">
+        <thead>
+            <tr class="industry_dashboard_add_medicine_table">
+                <th>Rep ID</th>
+                <th>Hospital ID</th>
+                <th>Medicine Name</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody style="background-color: white;">
+            <% confirmed_visits.forEach(visit => { %>
+            <tr style="padding: 10px; text-align: center; font-size: 22px; font-weight: 400;">
+                <td><%= visit.rep_id %></td>
+                <td><%= visit.hsp_id %></td>
+                <td><%= visit.medicine_name %></td>
+                <td><%= visit.timestamp %></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <% } else { %>
+    <p>No confirmed visit confirmations.</p>
+    <% } %>
+    <br>
+    <a href="#" onclick="history.back()">Back to Dashboard</a>
+</body>
+</html>

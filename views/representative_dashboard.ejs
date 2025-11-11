@@ -6,8 +6,112 @@
     <title>Vital Nest</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
-<body>
+<body style="background-color:#ebf9fa;">
     <h2>Welcome to the Medical Representative Page of Vital Nest</h2>
-    <h3>{{pharama_data}}</h3>
+    <h3>Pending Offers</h3>
+    <% if (pending_offers && pending_offers.length > 0) { %>
+    <table border="1">
+        <tr>
+            <th>Industry ID</th>
+            <th>Medicine Name</th>
+            <th>Offer Amount</th>
+            <th>Action</th>
+        </tr>
+        <% pending_offers.forEach(offer => { %>
+        <tr>
+            <td><%= offer.ind_id %></td>
+            <td><%= offer.medicine_name %></td>
+            <td><%= offer.offer_amount %></td>
+            <td>
+                <form method="post" action="/acceptOffer" style="display:inline;">
+                    <input type="hidden" name="rep_id" value="<%= rep_id %>">
+                    <input type="hidden" name="ind_id" value="<%= offer.ind_id %>">
+                    <input type="hidden" name="medicine_name" value="<%= offer.medicine_name %>">
+                    <input type="hidden" name="offer_amount" value="<%= offer.offer_amount %>">
+                    <button type="submit">Accept</button>
+                </form>
+                <form method="post" action="/rejectOffer" style="display:inline;">
+                    <input type="hidden" name="rep_id" value="<%= rep_id %>">
+                    <input type="hidden" name="ind_id" value="<%= offer.ind_id %>">
+                    <input type="hidden" name="medicine_name" value="<%= offer.medicine_name %>">
+                    <button type="submit">Reject</button>
+                </form>
+            </td>
+        </tr>
+        <% }); %>
+    </table>
+    <% } else { %>
+    <p>No pending offers.</p>
+    <% } %>
+    <h3>Assigned Medicines</h3>
+    <% if (assigned_meds && assigned_meds.length > 0) { %>
+    <table border="1">
+        <tr>
+            <th>Industry ID</th>
+            <th>Medicine Name</th>
+        </tr>
+        <% assigned_meds.forEach(med => { %>
+        <tr>
+            <td><%= med.ind_id %></td>
+            <td><%= med.medicine_name %></td>
+        </tr>
+        <% }); %>
+    </table>
+    <% } else { %>
+    <p>No assigned medicines.</p>
+    <% } %>
+    <h3>Hospital Details</h3>
+    <% if (hsp_data && hsp_data.length > 0) { %>
+    <table border="1">
+        <tr>
+            <th>Hospital ID</th>
+            <th>Manager Aadhar</th>
+            <th>Contact Number</th>
+            <th>Action</th>
+        </tr>
+        <% hsp_data.forEach(hsp => { %>
+        <tr>
+            <td><%= hsp.hsp_id %></td>
+            <td><%= hsp.manager && hsp.manager.length > 0 ? hsp.manager[0].aadhar : '' %></td>
+            <td><%= hsp.manager && hsp.manager.length > 0 ? hsp.manager[0].mobile : '' %></td>
+            <td>
+                <form method="post" action="/requestVisit" style="display:inline;">
+                    <input type="hidden" name="rep_id" value="<%= rep_id %>">
+                    <input type="hidden" name="hsp_id" value="<%= hsp.hsp_id %>">
+                    <select name="medicine_name" required>
+                        <option value="">Select Medicine</option>
+                        <% assigned_meds.forEach(med => { %>
+                        <option value="<%= med.medicine_name %>"><%= med.medicine_name %></option>
+                        <% }); %>
+                    </select>
+                    <button type="submit">Request Visit</button>
+                </form>
+            </td>
+        </tr>
+        <% }); %>
+    </table>
+    <% } else { %>
+    <p>No hospital details available.</p>
+    <% } %>
+
+    <h3>Confirmed Visits</h3>
+    <% if (confirmed_visits && confirmed_visits.length > 0) { %>
+    <table border="1">
+        <tr>
+            <th>Hospital ID</th>
+            <th>Medicine Name</th>
+            <th>Timestamp</th>
+        </tr>
+        <% confirmed_visits.forEach(visit => { %>
+        <tr>
+            <td><%= visit.hsp_id %></td>
+            <td><%= visit.medicine_name %></td>
+            <td><%= visit.timestamp %></td>
+        </tr>
+        <% }); %>
+    </table>
+    <% } else { %>
+    <p>No confirmed visits.</p>
+    <% } %>
 </body>
 </html>

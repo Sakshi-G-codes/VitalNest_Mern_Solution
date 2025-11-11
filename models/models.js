@@ -455,6 +455,267 @@ const inventoryDataSupplierToHospitalSchema = new Schema({
   collection: 'inventory_data_supplier_to_hospital'
 })
 
+const bloodDonationDataSchema = new Schema({
+  id: {
+    type: Number,
+    required: true,
+    unique: true
+  },
+  request_id: {
+    type: Number,
+    required: true
+  },
+  donor_aadhar: {
+    type: String,
+    required: true,
+    maxlength: 12
+  },
+  blood_group: {
+    type: String,
+    required: true,
+    enum: ['A+','A-','B+','B-','AB+','AB-','O+','O-']
+  },
+  tested_status: {
+    type: String,
+    enum: ['passed','failed','pending'],
+    default: 'pending'
+  },
+  donation_timestamp: {
+    type: Date,
+    default: Date.now
+  }
+}, {
+  collection: 'blood_donation_data'
+});
+
+const bloodDonationRequestsSchema = new Schema({
+  id: {
+    type: Number,
+    required: true,
+    unique: true
+  },
+  ngo_id: {
+    type: String,
+    required: true,
+    maxlength: 255
+  },
+  request_details: {
+    type: String,
+    required: true
+  },
+  status: {
+    type: String,
+    enum: ['pending','approved','rejected'],
+    default: 'pending'
+  },
+  request_timestamp: {
+    type: Date,
+    default: Date.now
+  }
+}, {
+  collection: 'blood_donation_requests'
+});
+
+const bloodUnitsAvailableSchema = new Schema({
+  blood_group: {
+    type: String,
+    required: true,
+    maxlength: 10
+  },
+  units: {
+    type: Number,
+    default: 0
+  }
+}, {
+  collection: 'blood_units_available'
+});
+
+const medicineDataForPatientsSchema = new Schema({
+  hsp_id: {
+    type: String,
+    length: 6,
+    default: null
+  },
+  med_name: {
+    type: String,
+    maxlength: 20,
+    default: null
+  },
+  quantity: {
+    type: Number,
+    default: null
+  }
+}, {
+  collection: 'medicine_data_for_patients'
+});
+
+const medicineRepresentativesSchema = new Schema({
+  id: {
+    type: Number,
+    required: true,
+    unique: true
+  },
+  ind_id: {
+    type: String,
+    required: true,
+    length: 6
+  },
+  medicine_name: {
+    type: String,
+    required: true,
+    maxlength: 30
+  },
+  rep_id: {
+    type: Number,
+    required: true
+  }
+}, {
+  collection: 'medicine_representatives'
+});
+
+const ngoIdentitySchema = new Schema({
+  ngo_id: {
+    type: String,
+    required: true,
+    length: 6
+  },
+  manager_id: {
+    type: Number,
+    required: true
+  }
+}, {
+  collection: 'ngo_identity'
+});
+
+const repOffersSchema = new Schema({
+  ind_id: {
+    type: String,
+    maxlength: 255,
+    default: null
+  },
+  medicine_name: {
+    type: String,
+    maxlength: 255,
+    default: null
+  },
+  rep_id: {
+    type: Number,
+    default: null
+  },
+  offer_amount: {
+    type: Number,
+    default: null
+  },
+  status: {
+    type: String,
+    maxlength: 20,
+    default: 'pending'
+  }
+}, {
+  collection: 'rep_offers'
+});
+
+const repVisitConfirmationsSchema = new Schema({
+  rep_id: {
+    type: Number,
+    required: true
+  },
+  hsp_id: {
+    type: String,
+    required: true,
+    maxlength: 255
+  },
+  medicine_name: {
+    type: String,
+    required: true,
+    maxlength: 255
+  },
+  ind_id: {
+    type: String,
+    required: true,
+    maxlength: 255
+  },
+  status: {
+    type: String,
+    enum: ['pending','confirmed'],
+    default: 'pending'
+  },
+  timestamp: {
+    type: Date,
+    default: Date.now
+  }
+}, {
+  collection: 'rep_visit_confirmations'
+});
+
+const repVisitRequestsSchema = new Schema({
+  rep_id: {
+    type: Number,
+    required: true
+  },
+  hsp_id: {
+    type: String,
+    required: true,
+    maxlength: 255
+  },
+  medicine_name: {
+    type: String,
+    required: true,
+    maxlength: 255
+  },
+  status: {
+    type: String,
+    enum: ['pending','confirmed'],
+    default: 'pending'
+  },
+  timestamp: {
+    type: Date,
+    default: Date.now
+  }
+}, {
+  collection: 'rep_visit_requests'
+});
+
+const unregisteredMedicineDataSchema = new Schema({
+  ind_id: {
+    type: String,
+    required: true,
+    length: 6
+  },
+  medicine_name: {
+    type: String,
+    required: true,
+    maxlength: 30
+  },
+  uses: {
+    type: String,
+    required: true,
+    maxlength: 40
+  },
+  side_effects: {
+    type: String,
+    required: true,
+    maxlength: 50
+  },
+  unregistered_timestamp: {
+    type: Date,
+    default: Date.now
+  }
+}, {
+  collection: 'unregistered_medicine_data'
+});
+
+
+const BloodDonationData = mongoose.model('BloodDonationData', bloodDonationDataSchema);
+const BloodDonationRequests = mongoose.model('BloodDonationRequests', bloodDonationRequestsSchema);
+const BloodUnitsAvailable = mongoose.model('BloodUnitsAvailable', bloodUnitsAvailableSchema);
+const MedicineDataForPatients = mongoose.model('MedicineDataForPatients', medicineDataForPatientsSchema);
+const MedicineRepresentatives = mongoose.model('MedicineRepresentatives', medicineRepresentativesSchema);
+const NgoIdentity = mongoose.model('NgoIdentity', ngoIdentitySchema);
+const RepOffers = mongoose.model('RepOffers', repOffersSchema);
+const RepVisitConfirmations = mongoose.model('RepVisitConfirmations', repVisitConfirmationsSchema);
+const RepVisitRequests = mongoose.model('RepVisitRequests', repVisitRequestsSchema);
+const UnregisteredMedicineData = mongoose.model('UnregisteredMedicineData', unregisteredMedicineDataSchema);
 
 const InventoryDataSupplierToHospital = mongoose.model('InventoryDataSupplierToHospital', inventoryDataSupplierToHospitalSchema);
 const InventoryDataIndustryToSupplier = mongoose.model('InventoryDataIndustryToSupplier', inventoryDataIndustryToSupplierSchema);
@@ -492,5 +753,15 @@ export {
   InventoryRequestToIndustryBySupplier,
   InventoryRequestToSupplierByHospital,
   InventoryDataIndustryToSupplier,
-  InventoryDataSupplierToHospital
+  InventoryDataSupplierToHospital,
+  BloodDonationData,
+  BloodDonationRequests,
+  BloodUnitsAvailable,
+  MedicineDataForPatients,
+  MedicineRepresentatives,
+  NgoIdentity,
+  RepOffers,
+  RepVisitConfirmations,
+  RepVisitRequests,
+  UnregisteredMedicineData
 };
