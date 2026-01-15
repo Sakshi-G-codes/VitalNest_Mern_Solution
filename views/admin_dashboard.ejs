@@ -119,8 +119,8 @@
                 <% ind_data.forEach(record => { %>
                 <tr>
                     <td><%= record.ind_id %></td>
-                    <td><%= record.manager[0].aadhar %></td>
-                    <td><%= record.manager[0].mobile %></td>
+                    <td><%= record.manager[0] %></td>
+                    <td><%= record.manager[0] %></td>
                 </tr>
                 <% }) %>
             </tbody>

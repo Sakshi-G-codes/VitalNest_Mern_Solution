@@ -265,15 +265,16 @@ app.post('/payCrowdfunding',async(req,res) => {
 app.post('/approveUser', async (req, res) => {
   const { name, aadhar, mobile, type, passwd, action } = req.body;
   const details = await AclList.find({ aadhar });
-  if (details.length > 0 && action === 'approve') {
-    return res.send("User already exists with the details like this: " + details.map(row => JSON.stringify(row)).join(", "));
-  } else if (action === 'reject') {
-    await RegistrationApprovalData.deleteOne({ aadhar });
-    return res.send("Rejected Successfully");
-  } else {
+  if (action === 'approve') {
+    if (details.length > 0) {
+      return res.send("User already exists with the details like this: " + details.map(row => JSON.stringify(row)).join(", "));
+    }
     await AclList.create({ name, aadhar, mobile, passwd, user_type: type });
     await RegistrationApprovalData.deleteOne({ aadhar });
     return res.send("Approved Successfully");
+  } else if (action === 'reject') {
+    await RegistrationApprovalData.deleteOne({ aadhar });
+    return res.send("Rejected Successfully");
   }
 });
 
