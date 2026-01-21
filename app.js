@@ -75,8 +75,8 @@ app.post('/login', async (req, res) => {
     return res.render('ngo_dashboard', { ngo_id, requests });
   } else if (user_type === "supplier") {
     const data = await MedicineData.find();
-    const inventory_data = await InventoryDataIndustryToSupplier.find({ supplier_id: aadhar });
-    const request_data = await InventoryRequestToSupplierByHospital.find({ supplier_id: aadhar });
+    const inventory_data = await InventoryDataIndustryToSupplier.find({ supplier_id: String(aadhar) });
+    const request_data = await InventoryRequestToSupplierByHospital.find({ supplier_id: String(aadhar) });
     return res.render('supplier_dashboard', { data, manager_id: aadhar, inventory_data, request_data });
   } else if (user_type === "industry") {
     const ind = await IndIdentity.findOne({ manager_id: aadhar });
@@ -124,7 +124,7 @@ app.post('/login', async (req, res) => {
         }
       }
     ]);
-    const approval_data = await RegistrationApprovalData.find({ approval_status: 'not approved' });
+    const approval_data = await RegistrationApprovalData.find({ approval_status: 'Not Approved' });
     const pending_blood_requests = await BloodDonationRequests.find({ status: 'pending' }).sort({ request_timestamp: -1 });
     const approved_blood_requests = await BloodDonationRequests.find({ status: 'approved' }).sort({ request_timestamp: -1 });
     const blood_units = await BloodUnitsAvailable.find().sort({ blood_group: 1 });
@@ -301,6 +301,7 @@ app.post('/removeMedicine', async (req, res) => {
 
 app.post('/requestInventory', async (req, res) => {
   const { supplier_id, quantity, ind_id, med_name } = req.body;
+  console.log(req.body);
   const requested_timestamp = new Date();
   await mongoose.connection.collection('inventory_request_to_industry_by_supplier').insertOne({
     supplier_id, quantity, ind_id, med_name, requested_timestamp, 

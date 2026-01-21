@@ -403,7 +403,7 @@ const inventoryRequestToSupplierByHospitalSchema = new Schema({
 });
 const inventoryDataIndustryToSupplierSchema = new Schema({
   supplier_id: {
-    type: Number,
+    type: String,
     default: null
   },
   quantity: {
